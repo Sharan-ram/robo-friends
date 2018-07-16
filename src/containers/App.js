@@ -1,13 +1,35 @@
+// import packages
 import React, { Component } from 'react'
+import 'typeface-roboto'
+// import components
+import RobotList from '../components/RobotList'
 
-class App extends Component {
+export default class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      robots: []
+    }
+  }
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          robots: res
+        })
+      })
+  }
+
   render() {
-    return (
+    const { robots } = this.state
+    return robots.length === 0 ?
+      <h1>Loading</h1> :
       <div>
-        Hello from App
+        <h1>Robo Friends</h1>
+        <RobotList
+          robots={robots}
+        />
       </div>
-    )
   }
 }
-
-export default App;
